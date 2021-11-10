@@ -1,4 +1,4 @@
-run: setup
+run: refine
 	./venv/bin/python3 hello_world.py
 
 setup: requirements.txt
