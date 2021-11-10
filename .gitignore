@@ -1,6 +1,10 @@
 .idea/
 .vscode/
 *.csv
+<<<<<<< HEAD
 datasets_original
 datasets_refined
 .venv/
+=======
+
+>>>>>>> main
