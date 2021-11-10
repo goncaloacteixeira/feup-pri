@@ -1,10 +1,10 @@
 import pandas as pd
 
 # read csv
-movies_df = pd.read_csv("datasets_original/IMDb_movies.csv")
-names_df = pd.read_csv("datasets_original/IMDb_names.csv")
-ratings_df = pd.read_csv("datasets_original/IMDb_ratings.csv")
-title_df = pd.read_csv("datasets_original/IMDb_title_principals.csv")
+movies_df = pd.read_csv("IMDb movies.csv")
+names_df = pd.read_csv("IMDb names.csv")
+ratings_df = pd.read_csv("IMDb ratings.csv")
+title_df = pd.read_csv("IMDb title_principals.csv")
 
 def remove_incomplete_cols(df):
 
@@ -17,11 +17,14 @@ def remove_incomplete_cols(df):
     return df.drop(cols_to_remove, axis=1)
 
 movies_df = remove_incomplete_cols(movies_df)
+movies_df.to_csv("refined_movies.csv")
+print("Refined Movies")
 names_df = remove_incomplete_cols(names_df)
+names_df.to_csv("refined_names.csv")
+print("Refined Names")
 ratings_df = remove_incomplete_cols(ratings_df)
+ratings_df.to_csv("refined_ratings.csv")
+print("Refined Ratings")
 title_df = remove_incomplete_cols(title_df)
-
-movies_df.to_csv("datasets_refined/movies_refined.csv")
-names_df.to_csv("datasets_refined/names_refined.csv")
-ratings_df.to_csv("datasets_refined/ratings_refined.csv")
-title_df.to_csv("datasets_refined/title_refined.csv")
+title_df.to_csv("refined_title_principals.csv")
+print("Refined Title Principals")

@@ -1,15 +1,18 @@
 run: refine
-	./venv/bin/python3 hello_world.py
+	./.venv/bin/python3 hello_world.py
 
 setup: requirements.txt
-	virtualenv venv
-	./venv/bin/pip install -r requirements.txt
+	virtualenv .venv
+	./.venv/bin/pip install -r requirements.txt
 
 refine: setup
-	python3 refine.py
+	./.venv/bin/python3 refine.py
+
+install:
+	sudo apt-get install virtualenv
 
 clean:
 	rm -rf __pycache__
-	rm -rf venv
+	rm -rf .venv
 
 .PHONY: clean
