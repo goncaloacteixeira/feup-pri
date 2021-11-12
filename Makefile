@@ -1,3 +1,6 @@
+install:
+	sudo apt-get install virtualenv
+
 run: refine
 	./.venv/bin/python3 hello_world.py
 
@@ -8,11 +11,13 @@ setup: requirements.txt
 refine: setup
 	./.venv/bin/python3 refine.py
 
-install:
-	sudo apt-get install virtualenv
+plot: refine
+	./.venv/bin/python3 plot.py
 
 clean:
 	rm -rf __pycache__
 	rm -rf .venv
+	rm refined_*.csv
+	rm *.png
 
 .PHONY: clean

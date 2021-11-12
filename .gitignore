@@ -4,3 +4,4 @@
 datasets_original
 datasets_refined
 .venv/
+*.png
