@@ -61,8 +61,8 @@ def plot_number_movies_per_average_votes_1():
 
     # create serie to plot
     movies_average_ratings_serie = \
-    movies_ratings_df.groupby(pd.cut(movies_ratings_df["weighted_average_vote"], np.arange(1, 10.1, 0.1))).count()[
-        "imdb_title_id"]
+        movies_ratings_df.groupby(pd.cut(movies_ratings_df["weighted_average_vote"], np.arange(1, 10.1, 0.1))).count()[
+            "imdb_title_id"]
 
     # configure plot
     plt.rcParams.update({"font.size": 8})
@@ -87,8 +87,8 @@ def plot_number_movies_per_average_votes_2():
 
     # create serie to plot
     movies_average_ratings_serie = \
-    movies_ratings_df.groupby(pd.cut(movies_ratings_df["weighted_average_vote"], np.arange(1, 11, 1))).count()[
-        "imdb_title_id"]
+        movies_ratings_df.groupby(pd.cut(movies_ratings_df["weighted_average_vote"], np.arange(1, 11, 1))).count()[
+            "imdb_title_id"]
 
     # configure plot
     plt.rcParams.update({"font.size": 8})
@@ -189,10 +189,14 @@ def plot_movie_duration_per_movie():
     fig.savefig('movie_duration_per_movie.png')
 
 
-plot_number_movies_per_year()
-plot_number_movies_per_decade()
-plot_number_movies_per_average_votes_1()
-plot_number_movies_per_average_votes_2()
-circular_plot_genre_movies()
-plot_number_people_per_movie()
-plot_movie_duration_per_movie()
+plots = [plot_number_movies_per_year,
+         plot_number_movies_per_decade,
+         plot_number_movies_per_average_votes_1,
+         plot_number_movies_per_average_votes_2,
+         circular_plot_genre_movies,
+         plot_number_people_per_movie,
+         plot_movie_duration_per_movie]
+
+for i, c in enumerate(plots):
+    print("Plotting: %s - %d of %d" % (c.__name__, i + 1, len(plots)))
+    c()
