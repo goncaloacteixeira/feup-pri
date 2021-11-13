@@ -8,3 +8,5 @@ datasets_refined
 *.db
 *.sql
 *.gz
+!docs/*.png
+!plots/*.png
