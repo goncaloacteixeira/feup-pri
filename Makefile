@@ -2,6 +2,7 @@ all: database
 
 database: plot
 	./.venv/bin/python3 database.py
+	sqlite3 database.db .dump | gzip -c > database.dump.gz
 
 plot: refine
 	./.venv/bin/python3 plot.py
@@ -14,13 +15,17 @@ setup: requirements.txt
 	./.venv/bin/pip install -r requirements.txt
 
 install:
-	sudo apt-get install python3
-	sudo apt-get install python3-virtualenv
+	sudo apt-get install -Y python3 python3-virtualenv sqlite3 gzip
+
+clean_all: clean
+	rm -rf .venv
+
+clean_not_needed:
+	rm -rf __pycache__
+	rm -f refined_*.csv
 
 clean:
 	rm -rf __pycache__
-	rm refined_*.csv
-	rm *.png
-	rm database.db
+	rm -f refined_*.csv *.png database.dump.gz database.db
 
-.PHONY: clean setup refine plot database run install
+.PHONY: clean clean_not_needed clean_all setup refine plot database run install

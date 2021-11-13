@@ -48,7 +48,9 @@ def main():
                                         country text,
                                         language text,
                                         production_company text,
-                                        description text
+                                        description text,
+                                        reviews_from_users float,
+                                        reviews_from_critics float
                                     ); """
 
     sql_create_names_table = """CREATE TABLE IF NOT EXISTS names (

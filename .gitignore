@@ -7,3 +7,4 @@ datasets_refined
 *.png
 *.db
 *.sql
+*.gz
