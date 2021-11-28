@@ -1,0 +1,56 @@
+{
+    "add-field-type": [
+        {
+            "name":"imdbID",
+            "class":"solr.TextField",
+            "indexAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            },
+            "queryAnalyzer":{
+                "tokenizer":{
+                    "class":"solr.StandardTokenizerFactory"
+                },
+                "filters":[
+                    {"class":"solr.LowerCaseFilterFactory"}
+                ]
+            }
+        },
+        {
+            "name": "descriptionType",
+            "class": "solr.TextField",
+            "analyzer": {
+                "tokenizer": {
+                    "class": "solr.StandardTokenizerFactory"
+                },
+                "filters": [
+                    {
+                        "class": "solr.BeiderMorseFilterFactory",
+                        "nameType": "GENERIC",
+                        "ruleType": "APPROX",
+                        "concat": true,
+                        "languageSet": "auto"
+                    }
+                ]
+            }
+        }
+    ],
+    "add-field": [
+        {
+            "name": "imdb_title_id",
+            "type": "imdbID",
+            "indexed": true,
+            "stored": true
+        },
+        {
+            "name": "description",
+            "type": "descriptionType",
+            "indexed": true,
+            "stored": true
+        }
+    ]
+}

@@ -10,3 +10,4 @@ datasets_refined
 *.gz
 !docs/*.png
 !plots/*.png
+**/movie_data.json

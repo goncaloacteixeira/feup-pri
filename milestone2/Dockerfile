@@ -1,8 +1,8 @@
 FROM solr:8.10
 
-COPY meic_courses.json /data/meic_courses.json
+COPY movie_data.json /data/movie_data.json
 
-COPY simple_schema.json /data/simple_schema.json
+COPY movie_schema.json /data/movie_schema.json
 
 COPY startup.sh /scripts/startup.sh
 
