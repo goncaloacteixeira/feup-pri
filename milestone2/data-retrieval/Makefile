@@ -1,6 +1,6 @@
-all: database
+all: json
 
-json:
+json: database
 	./.venv/bin/python3 export_json.py
 
 database: plot
@@ -31,4 +31,4 @@ clean:
 	rm -rf __pycache__
 	rm -f refined_*.csv *.png database.dump.gz database.db
 
-.PHONY: clean clean_not_needed clean_all setup refine plot database run install
+.PHONY: clean clean_not_needed clean_all setup refine plot database run install json

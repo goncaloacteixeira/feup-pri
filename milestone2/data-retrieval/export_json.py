@@ -8,34 +8,43 @@ def fetch_movies(conn: sqlite3.Connection):
     cursor = conn.execute(query)
     result = cursor.fetchall()
 
-    return [dict(x) for x in result]
+    movies = []
+    for x in result:
+        x = dict(x)
+        x["data_type"] = "movie"
+        x["genre"] = x["genre"].split(", ")
+        movies.append(x)
+
+    return movies
 
 
-def fetch_name(conn: sqlite3.Connection, imdb_name_id):
-    query = """SELECT * from names WHERE imdb_name_id = ?"""
+def fetch_names(conn: sqlite3.Connection):
+    query = """SELECT * from names"""
 
-    cursor = conn.execute(query, (imdb_name_id,))
-    name = cursor.fetchone()
+    cursor = conn.execute(query)
+    result = cursor.fetchall()
 
-    return dict(name) if name is not None else None
+    names = []
+    for x in result:
+        x = dict(x)
+        x["data_type"] = "name"
+        names.append(x)
+
+    return names
 
 
-def fetch_names_from_movie(conn: sqlite3.Connection, imdb_id):
-    query = """SELECT * from movie_personal WHERE imdb_title_id = ?"""
+def fetch_move_personal(conn: sqlite3.Connection):
+    query = """SELECT * from movie_personal"""
+    cursor = conn.execute(query)    
+    result = cursor.fetchall()
 
-    cursor = conn.execute(query, (imdb_id,))
-    personal = cursor.fetchall()
-
-    full_personal = []
-
-    for person in personal:
-        name = fetch_name(conn, person["imdb_name_id"])
-        if name is not None:
-            person = dict(person)
-            del person["imdb_title_id"]
-            full_personal.append({**person, **name})
-
-    return full_personal
+    movie_personal = []
+    for x in result:
+        x = dict(x)
+        x["data_type"] = "personal"
+        movie_personal.append(x)
+    
+    return movie_personal
 
 
 def fetch_ratings_from_movie(conn: sqlite3.Connection, imdb_id):
@@ -52,18 +61,45 @@ try:
     conn.row_factory = sqlite3.Row
     print('Connection made successfully')
 
-    movies = []
+    data = []
     print("Joining movies on json format...")
-    for movie in fetch_movies(conn):
-        personal = fetch_names_from_movie(conn, movie["imdb_title_id"])
-        movie["personal"] = personal
+    movies = fetch_movies(conn)
+    for movie in movies:
+        # array with imdb_name_id's
+        # personal = fetch_names_from_movie(conn, movie["imdb_title_id"])
+        # movie["personal"] = personal
         rating = fetch_ratings_from_movie(conn, movie["imdb_title_id"])
         movie = {**movie, **rating}
-        movies.append(movie)
-    print("Finished read: ", len(movies), "movies read!")
+        data.append(movie)
+        print("Reading: {0}/{1} movies ({2:.2f}%)".format(len(data), len(movies), len(data)/len(movies)*100), end="\r")
+    
+    print("\nFinished read movies!")
 
-    with open('movie_data.json', 'w') as fout:
-        json.dump(movies, fout, indent=2)
+    acc = len(data)
+
+    names = fetch_names(conn)
+    for name in names:
+        # participations = fetch_movies_from_name(conn, name["imdb_name_id"])
+        # name["movies"] = participations
+        data.append(name)
+        print("Reading:{0}/{1} names ({2:.2f}%)".format(len(data) - acc, len(names), (len(data) - acc)/len(names)*100), end="\r")
+
+    print("\nFinished read names!")
+
+    acc = len(data)
+
+    personal = fetch_move_personal(conn)
+    for relation in personal:
+        # participations = fetch_movies_from_name(conn, name["imdb_name_id"])
+        # name["movies"] = participations
+        data.append(relation)
+        print("Reading:{0}/{1} relations ({2:.2f}%)".format(len(data) - acc, len(personal), (len(data) - acc)/len(personal)*100), end="\r")
+
+    print("\nFinished read relations!")
+
+
+    with open('data.json', 'w') as fout:
+        json.dump(data, fout, indent=2)
 
 except sqlite3.Error as error:
     print('Error while connecting to sqlite:', error)

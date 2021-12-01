@@ -1,6 +1,6 @@
-FROM solr:8.10
+FROM solr:8.11
 
-COPY movie_data.json /data/movie_data.json
+COPY data.json /data/data.json
 
 COPY movie_schema.json /data/movie_schema.json
 
