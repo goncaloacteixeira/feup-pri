@@ -1,26 +1,6 @@
 {
     "add-field-type": [
         {
-            "name":"imdbID",
-            "class":"solr.TextField",
-            "indexAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.StandardTokenizerFactory"
-                },
-                "filters":[
-                    {"class":"solr.LowerCaseFilterFactory"}
-                ]
-            },
-            "queryAnalyzer":{
-                "tokenizer":{
-                    "class":"solr.StandardTokenizerFactory"
-                },
-                "filters":[
-                    {"class":"solr.LowerCaseFilterFactory"}
-                ]
-            }
-        },
-        {
             "name": "descriptionType",
             "class": "solr.TextField",
             "analyzer": {
@@ -42,7 +22,7 @@
     "add-field": [
         {
             "name": "imdb_title_id",
-            "type": "imdbID",
+            "type": "string",
             "indexed": true,
             "stored": true
         },

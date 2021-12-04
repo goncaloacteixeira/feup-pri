@@ -13,6 +13,10 @@ def fetch_movies(conn: sqlite3.Connection):
         x = dict(x)
         x["data_type"] = "movie"
         x["genre"] = x["genre"].split(", ")
+        if x["country"] is not None:
+            x["country"] = x["country"].split(", ")
+        if x["language"] is not None:
+            x["language"] = x["language"].split(", ")
         movies.append(x)
 
     return movies

@@ -6,7 +6,7 @@ precreate-core movies
 solr start
 
 # Give some time for Solr to start
-#sleep 10
+sleep 10
 
 # Schema definition via API
 curl -X POST -H 'Content-type:application/json' \
