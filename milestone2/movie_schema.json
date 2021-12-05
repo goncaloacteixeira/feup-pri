@@ -5,9 +5,33 @@
             "class": "solr.TextField",
             "analyzer": {
                 "tokenizer": {
-                    "class": "solr.StandardTokenizerFactory"
+                    "class": "solr.LowerCaseTokenizerFactory"
                 },
                 "filters": [
+                    {
+                        "class": "solr.BeiderMorseFilterFactory",
+                        "nameType": "GENERIC",
+                        "ruleType": "APPROX",
+                        "concat": true,
+                        "languageSet": "auto"
+                    },
+                    {
+                        "class": "solr.CommonGramsFilterFactory"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "titleType",
+            "class": "solr.TextField",
+            "analyzer": {
+                "tokenizer": {
+                    "class": "solr.LowerCaseTokenizerFactory"
+                },
+                "filters": [
+                    {
+                        "class": "solr.CommonGramsFilterFactory"
+                    },
                     {
                         "class": "solr.BeiderMorseFilterFactory",
                         "nameType": "GENERIC",
@@ -23,6 +47,24 @@
         {
             "name": "imdb_title_id",
             "type": "string",
+            "indexed": true,
+            "stored": true
+        },
+        {
+            "name": "imbd_name_id",
+            "type": "string",
+            "indexed": true,
+            "stored":true
+        },
+        {
+            "name": "title",
+            "type": "titleType",
+            "indexed": true,
+            "stored": true
+        },
+        {
+            "name": "original_title",
+            "type": "titleType",
             "indexed": true,
             "stored": true
         },

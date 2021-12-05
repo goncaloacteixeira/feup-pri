@@ -69,9 +69,6 @@ try:
     print("Joining movies on json format...")
     movies = fetch_movies(conn)
     for movie in movies:
-        # array with imdb_name_id's
-        # personal = fetch_names_from_movie(conn, movie["imdb_title_id"])
-        # movie["personal"] = personal
         rating = fetch_ratings_from_movie(conn, movie["imdb_title_id"])
         movie = {**movie, **rating}
         data.append(movie)
@@ -83,8 +80,6 @@ try:
 
     names = fetch_names(conn)
     for name in names:
-        # participations = fetch_movies_from_name(conn, name["imdb_name_id"])
-        # name["movies"] = participations
         data.append(name)
         print("Reading:{0}/{1} names ({2:.2f}%)".format(len(data) - acc, len(names), (len(data) - acc)/len(names)*100), end="\r")
 
@@ -94,8 +89,6 @@ try:
 
     personal = fetch_move_personal(conn)
     for relation in personal:
-        # participations = fetch_movies_from_name(conn, name["imdb_name_id"])
-        # name["movies"] = participations
         data.append(relation)
         print("Reading:{0}/{1} relations ({2:.2f}%)".format(len(data) - acc, len(personal), (len(data) - acc)/len(personal)*100), end="\r")
 
@@ -103,7 +96,7 @@ try:
 
 
     with open('data.json', 'w') as fout:
-        json.dump(data, fout, indent=2)
+        json.dump(data, fout)
 
 except sqlite3.Error as error:
     print('Error while connecting to sqlite:', error)

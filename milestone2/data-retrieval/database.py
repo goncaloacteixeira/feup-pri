@@ -44,6 +44,7 @@ def main():
                                         year integer,
                                         genre text,
                                         duration integer,
+                                        plot text,
                                         country text,
                                         language text,
                                         production_company text,

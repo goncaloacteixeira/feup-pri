@@ -22,6 +22,14 @@ movies_df = remove_incomplete_cols(movies_df)
 movies_df = movies_df.drop(["avg_vote", "votes", "date_published"], axis=1)  # duplicates columns
 movies_df = movies_df.drop(83917)  # desformated data
 
+movie_metadata_df = pd.read_csv('MovieSummaries/movie.metadata.tsv', sep='\t', header=None, usecols=[0, 2], names=['id', 'original_title'])
+plot_summaries_df = pd.read_csv('MovieSummaries/plot_summaries.tsv', sep='\t', header=None, names=['id', 'plot'])
+
+extra_df = pd.merge(movie_metadata_df, plot_summaries_df, on='id')
+extra_df = extra_df.groupby(['original_title']).agg({'plot': lambda x: max(x, key=len)})
+
+movies_df = pd.merge(movies_df, extra_df, on='original_title', how='left')
+
 movies_df.to_csv("refined_movies.csv", index=False)
 print("Refined Movies")
 
