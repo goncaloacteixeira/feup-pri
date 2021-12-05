@@ -22,6 +22,33 @@
             }
         },
         {
+            "name": "plotType",
+            "class": "solr.TextField",
+            "analyzer": {
+                "tokenizer": {
+                    "class": "solr.LowerCaseTokenizerFactory"
+                },
+                "filters": [
+                    {
+                        "class": "solr.BeiderMorseFilterFactory",
+                        "nameType": "GENERIC",
+                        "ruleType": "APPROX",
+                        "concat": true,
+                        "languageSet": "auto"
+                    },
+                    {
+                        "class": "solr.CommonGramsFilterFactory"
+                    },
+                    {
+                        "class": "solr.ClassicFilterFactory"
+                    },
+                    {
+                        "class": "solr.DoubleMetaphoneFilterFactory"
+                    }
+                ]
+            }
+        },
+        {
             "name": "titleType",
             "class": "solr.TextField",
             "analyzer": {
@@ -55,6 +82,12 @@
             "type": "string",
             "indexed": true,
             "stored":true
+        },
+        {
+            "name": "plot",
+            "type": "plotType",
+            "indexed": true,
+            "stored": true
         },
         {
             "name": "title",
