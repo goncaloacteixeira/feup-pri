@@ -1,111 +1,156 @@
 {
-    "add-field-type": [
-        {
-            "name": "descriptionType",
-            "class": "solr.TextField",
-            "analyzer": {
-                "tokenizer": {
-                    "class": "solr.LowerCaseTokenizerFactory"
-                },
-                "filters": [
-                    {
-                        "class": "solr.BeiderMorseFilterFactory",
-                        "nameType": "GENERIC",
-                        "ruleType": "APPROX",
-                        "concat": true,
-                        "languageSet": "auto"
-                    },
-                    {
-                        "class": "solr.CommonGramsFilterFactory"
-                    }
-                ]
-            }
+  "add-field-type": [
+    {
+      "name": "descriptionType",
+      "class": "solr.TextField",
+      "analyzer": {
+        "tokenizer": {
+          "class": "solr.LowerCaseTokenizerFactory"
         },
-        {
-            "name": "plotType",
-            "class": "solr.TextField",
-            "analyzer": {
-                "tokenizer": {
-                    "class": "solr.LowerCaseTokenizerFactory"
-                },
-                "filters": [
-                    {
-                        "class": "solr.BeiderMorseFilterFactory",
-                        "nameType": "GENERIC",
-                        "ruleType": "APPROX",
-                        "concat": true,
-                        "languageSet": "auto"
-                    },
-                    {
-                        "class": "solr.CommonGramsFilterFactory"
-                    },
-                    {
-                        "class": "solr.ClassicFilterFactory"
-                    },
-                    {
-                        "class": "solr.DoubleMetaphoneFilterFactory"
-                    }
-                ]
-            }
+        "filters": [
+          {
+            "class": "solr.BeiderMorseFilterFactory",
+            "nameType": "GENERIC",
+            "ruleType": "APPROX",
+            "concat": true,
+            "languageSet": "auto"
+          },
+          {
+            "class": "solr.CommonGramsFilterFactory"
+          }
+        ]
+      }
+    },
+    {
+      "name": "plotType",
+      "class": "solr.TextField",
+      "analyzer": {
+        "tokenizer": {
+          "class": "solr.LowerCaseTokenizerFactory"
         },
-        {
-            "name": "titleType",
-            "class": "solr.TextField",
-            "analyzer": {
-                "tokenizer": {
-                    "class": "solr.LowerCaseTokenizerFactory"
-                },
-                "filters": [
-                    {
-                        "class": "solr.CommonGramsFilterFactory"
-                    },
-                    {
-                        "class": "solr.BeiderMorseFilterFactory",
-                        "nameType": "GENERIC",
-                        "ruleType": "APPROX",
-                        "concat": true,
-                        "languageSet": "auto"
-                    }
-                ]
-            }
-        }
-    ],
-    "add-field": [
-        {
-            "name": "imdb_title_id",
-            "type": "string",
-            "indexed": true,
-            "stored": true
+        "filters": [
+          {
+            "class": "solr.BeiderMorseFilterFactory",
+            "nameType": "GENERIC",
+            "ruleType": "APPROX",
+            "concat": true,
+            "languageSet": "auto"
+          },
+          {
+            "class": "solr.CommonGramsFilterFactory"
+          },
+          {
+            "class": "solr.ClassicFilterFactory"
+          }
+        ]
+      }
+    },
+    {
+      "name": "titleType",
+      "class": "solr.TextField",
+      "analyzer": {
+        "tokenizer": {
+          "class": "solr.LowerCaseTokenizerFactory"
         },
-        {
-            "name": "imbd_name_id",
-            "type": "string",
-            "indexed": true,
-            "stored":true
-        },
-        {
-            "name": "plot",
-            "type": "plotType",
-            "indexed": true,
-            "stored": true
-        },
-        {
-            "name": "title",
-            "type": "titleType",
-            "indexed": true,
-            "stored": true
-        },
-        {
-            "name": "original_title",
-            "type": "titleType",
-            "indexed": true,
-            "stored": true
-        },
-        {
-            "name": "description",
-            "type": "descriptionType",
-            "indexed": true,
-            "stored": true
-        }
-    ]
+        "filters": [
+          {
+            "class": "solr.CommonGramsFilterFactory"
+          },
+          {
+            "class": "solr.BeiderMorseFilterFactory",
+            "nameType": "GENERIC",
+            "ruleType": "APPROX",
+            "concat": true,
+            "languageSet": "auto"
+          }
+        ]
+      }
+    }
+  ],
+  "add-field": [
+    {
+      "name": "role",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "imdb_name_id",
+      "type": "string",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "name",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "birth_name",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "bio",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "spouses",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "divorces",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "spouses_with_children",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "children",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "plot",
+      "type": "plotType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "title",
+      "type": "titleType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "original_title",
+      "type": "titleType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "description",
+      "type": "descriptionType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "imdb_title_id",
+      "type": "string",
+      "indexed": true,
+      "stored": true
+    }
+  ]
 }

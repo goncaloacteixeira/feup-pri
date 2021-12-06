@@ -1,6 +1,7 @@
 all: json
 
 json: database
+	mkdir -p ../data
 	./.venv/bin/python3 export_json.py
 
 database: plot

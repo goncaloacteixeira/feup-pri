@@ -14,7 +14,13 @@ curl -X POST -H 'Content-type:application/json' \
     http://localhost:8983/solr/movies/schema
 
 # Populate collection
-bin/post -c movies /data/data.json
+# send each split file
+BULK_FILES=/data/data*.json
+for f in $BULK_FILES; do
+    curl -X POST -H 'Content-type:application/json' \
+    --data-binary @$f \
+    'http://localhost:8983/solr/movies/update/json/docs?split=/|/personal'
+done
 
 # Restart in foreground mode so we can access the interface
 solr restart -f

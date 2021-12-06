@@ -37,9 +37,9 @@ def fetch_names(conn: sqlite3.Connection):
     return names
 
 
-def fetch_move_personal(conn: sqlite3.Connection):
+def fetch_movie_personal(conn: sqlite3.Connection):
     query = """SELECT * from movie_personal"""
-    cursor = conn.execute(query)    
+    cursor = conn.execute(query)
     result = cursor.fetchall()
 
     movie_personal = []
@@ -47,8 +47,33 @@ def fetch_move_personal(conn: sqlite3.Connection):
         x = dict(x)
         x["data_type"] = "personal"
         movie_personal.append(x)
-    
+
     return movie_personal
+
+
+def fetch_name(conn: sqlite3.Connection, imdb_name_id):
+    query = """SELECT * from names WHERE imdb_name_id = ?"""
+    cursor = conn.execute(query, (imdb_name_id,))
+    result = cursor.fetchone()
+    return dict(result) if result is not None else None
+
+
+def fetch_names_from_movie(conn: sqlite3.Connection, imdb_title_id):
+    query = """SELECT * from movie_personal WHERE imdb_title_id = ?"""
+    cursor = conn.execute(query, (imdb_title_id,))
+    result = cursor.fetchall()
+
+    personal = []
+    for r in result:
+        r = dict(r)
+        name = fetch_name(conn, r["imdb_name_id"])
+        if name is not None:
+            name["id"] = imdb_title_id + "_" + r["imdb_name_id"]
+            person = {**r, **name}
+            del person["imdb_title_id"]
+            personal.append(person)
+
+    return personal
 
 
 def fetch_ratings_from_movie(conn: sqlite3.Connection, imdb_id):
@@ -68,35 +93,23 @@ try:
     data = []
     print("Joining movies on json format...")
     movies = fetch_movies(conn)
+    i = 0
     for movie in movies:
         rating = fetch_ratings_from_movie(conn, movie["imdb_title_id"])
         movie = {**movie, **rating}
+        movie["personal"] = fetch_names_from_movie(conn, movie["imdb_title_id"])
         data.append(movie)
-        print("Reading: {0}/{1} movies ({2:.2f}%)".format(len(data), len(movies), len(data)/len(movies)*100), end="\r")
-    
-    print("\nFinished read movies!")
 
-    acc = len(data)
+        if len(data) == 20000:
+            with open('../data/data%d.json' % i, 'w') as fout:
+                json.dump(data, fout, indent=2)
+                data = []
+                i += 1
 
-    names = fetch_names(conn)
-    for name in names:
-        data.append(name)
-        print("Reading:{0}/{1} names ({2:.2f}%)".format(len(data) - acc, len(names), (len(data) - acc)/len(names)*100), end="\r")
+    print("Finished read movies!")
 
-    print("\nFinished read names!")
-
-    acc = len(data)
-
-    personal = fetch_move_personal(conn)
-    for relation in personal:
-        data.append(relation)
-        print("Reading:{0}/{1} relations ({2:.2f}%)".format(len(data) - acc, len(personal), (len(data) - acc)/len(personal)*100), end="\r")
-
-    print("\nFinished read relations!")
-
-
-    with open('data.json', 'w') as fout:
-        json.dump(data, fout)
+    with open('../data/data%d.json' % i, 'w') as fout:
+        json.dump(data, fout, indent=2)
 
 except sqlite3.Error as error:
     print('Error while connecting to sqlite:', error)
