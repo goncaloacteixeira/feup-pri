@@ -11,3 +11,4 @@ datasets_refined
 !docs/*.png
 !plots/*.png
 **/movie_data.json
+**/data*.json
