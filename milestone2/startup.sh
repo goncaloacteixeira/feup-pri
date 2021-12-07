@@ -6,7 +6,7 @@ precreate-core movies
 solr start
 
 # Give some time for Solr to start
-sleep 10
+sleep 2
 
 # Schema definition via API
 curl -X POST -H 'Content-type:application/json' \
@@ -20,12 +20,16 @@ curl -X POST -H 'Content-type:application/json' \
 
 # Populate collection
 # send each split file
-BULK_FILES=/data/data*.json
-for f in $BULK_FILES; do
-    curl -X POST -H 'Content-type:application/json' \
-    --data-binary @$f \
-    'http://localhost:8983/solr/movies/update/json/docs?split=/|/personal'
-done
+#BULK_FILES=/data/data*.json
+#for f in $BULK_FILES; do
+#    curl -X POST -H 'Content-type:application/json' \
+#    --data-binary @$f \
+#    'http://localhost:8983/solr/movies/update/json/docs?split=/|/personal'
+#done
+
+curl -X POST -H 'Content-type:application/json' \
+   --data-binary @/data/data0.json \
+  'http://localhost:8983/solr/movies/update/json/docs?split=/|/personal'
 
 # Restart in foreground mode so we can access the interface
 solr restart -f

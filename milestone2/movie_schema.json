@@ -81,6 +81,12 @@
       "stored": true
     },
     {
+      "name": "year",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
       "name": "original_title",
       "type": "titleType",
       "indexed": true,
