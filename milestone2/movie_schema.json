@@ -1,46 +1,30 @@
 {
   "add-field-type": [
     {
-      "name": "descriptionType",
+      "name": "summaryType",
       "class": "solr.TextField",
-      "analyzer": {
+      "indexAnalyzer": {
         "tokenizer": {
-          "class": "solr.LowerCaseTokenizerFactory"
+          "class": "solr.StandardTokenizerFactory"
         },
         "filters": [
           {
-            "class": "solr.BeiderMorseFilterFactory",
-            "nameType": "GENERIC",
-            "ruleType": "APPROX",
-            "concat": true,
-            "languageSet": "auto"
+            "class": "solr.StopFilterFactory",
+            "words": "lang/stopwords_en.txt",
+            "ignoreCase": true
           },
           {
-            "class": "solr.CommonGramsFilterFactory"
-          }
-        ]
-      }
-    },
-    {
-      "name": "plotType",
-      "class": "solr.TextField",
-      "analyzer": {
-        "tokenizer": {
-          "class": "solr.LowerCaseTokenizerFactory"
-        },
-        "filters": [
-          {
-            "class": "solr.BeiderMorseFilterFactory",
-            "nameType": "GENERIC",
-            "ruleType": "APPROX",
-            "concat": true,
-            "languageSet": "auto"
+            "class": "solr.LowerCaseFilterFactory"
           },
           {
-            "class": "solr.CommonGramsFilterFactory"
+            "class": "solr.EnglishPossessiveFilterFactory"
           },
           {
-            "class": "solr.ClassicFilterFactory"
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
           }
         ]
       }
@@ -70,7 +54,7 @@
   "add-field": [
     {
       "name": "plot",
-      "type": "plotType",
+      "type": "summaryType",
       "indexed": true,
       "stored": true
     },
@@ -94,7 +78,7 @@
     },
     {
       "name": "description",
-      "type": "descriptionType",
+      "type": "summaryType",
       "indexed": true,
       "stored": true
     },
