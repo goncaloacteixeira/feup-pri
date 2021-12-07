@@ -13,6 +13,11 @@ curl -X POST -H 'Content-type:application/json' \
     --data-binary @/data/movie_schema.json \
     http://localhost:8983/solr/movies/schema
 
+# Schema definition via API
+curl -X POST -H 'Content-type:application/json' \
+    --data-binary @/data/names_schema.json \
+    http://localhost:8983/solr/movies/schema
+
 # Populate collection
 # send each split file
 BULK_FILES=/data/data*.json

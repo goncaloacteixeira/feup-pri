@@ -7,6 +7,7 @@ COPY ./data/data3.json /data/data3.json
 COPY ./data/data4.json /data/data4.json
 
 COPY movie_schema.json /data/movie_schema.json
+COPY names_schema.json /data/names_schema.json
 
 COPY startup.sh /scripts/startup.sh
 

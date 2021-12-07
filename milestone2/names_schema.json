@@ -1,0 +1,58 @@
+{
+  "add-field": [
+    {
+      "name": "role",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "imdb_name_id",
+      "type": "string",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "name",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "birth_name",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "bio",
+      "type": "text_general",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "spouses",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "divorces",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "spouses_with_children",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "children",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    }
+  ]
+}
