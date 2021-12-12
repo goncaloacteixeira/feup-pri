@@ -12,3 +12,5 @@ datasets_refined
 !plots/*.png
 **/movie_data.json
 **/data*.json
+
+**/__pycache__
