@@ -9,11 +9,6 @@
         },
         "filters": [
           {
-            "class": "solr.StopFilterFactory",
-            "words": "lang/stopwords_en.txt",
-            "ignoreCase": true
-          },
-          {
             "class": "solr.LowerCaseFilterFactory"
           },
           {
@@ -40,11 +35,6 @@
             "synonyms": "synonyms.txt"
           },
           {
-            "class": "solr.StopFilterFactory",
-            "words": "lang/stopwords_en.txt",
-            "ignoreCase": true
-          },
-          {
             "class": "solr.LowerCaseFilterFactory"
           },
           {
@@ -56,13 +46,6 @@
           },
           {
             "class": "solr.PorterStemFilterFactory"
-          },
-          {
-            "class": "solr.BeiderMorseFilterFactory",
-            "nameType": "GENERIC",
-            "ruleType": "APPROX",
-            "concat": true,
-            "languageSet": "auto"
           }
         ]
       }
