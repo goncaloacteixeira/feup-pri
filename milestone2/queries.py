@@ -34,6 +34,8 @@ params = {
 movies = get(SELECT_URL, params=params)
 movies_json = json.loads(movies.text)["response"]["docs"]
 
+# ---
+
 print('Comedy movies from the 20\'s:')
 for doc in movies_json:
     print("> %s - %s - %d - %.02f" % (doc['imdb_title_id'], doc['original_title'], doc['year'], doc['mean_vote'][0]))
@@ -50,32 +52,13 @@ params = {
 movies = get(SELECT_URL, params=params)
 movies_json = json.loads(movies.text)["response"]["docs"]
 
+print()
 print('Worst 10 rated horror movies since 2000')
 for i in range(len(movies_json)):
     doc = movies_json[i]
     print("#%d %s - %s - %.02f" % (i + 1, doc['imdb_title_id'], doc['original_title'], doc['mean_vote'][0]))
 
-# Top actors with most participations in movies (Not woking)
-params = {
-    'q': 'name:*',
-    'fl': '*,[child]',
-    'rows': 10,
-    'group': 'true',
-    'group.field': 'imdb_name_id',
-    'group.ngroups': 'true'
-}
-
-movies = get(SELECT_URL, params=params)
-groups = json.loads(movies.text)['grouped']['imdb_name_id']['groups']
-print(groups[0]['doclist']['docs'])
-# movies_json = json.loads(movies.text)["response"]["docs"]
-
-# print('Top actor\'s with most participations')
-# for doc in movies_json:
-#    print("> %s - %s - %d - %.02f" % (doc['imdb_title_id'], doc['original_title'], doc['year'], doc['mean_vote'][0]))
-
-# print(movies_json)
-
+# ---
 
 # top 10 rated Drama movies with at least 100000 votes
 params = {
@@ -88,11 +71,14 @@ params = {
 movies = get(SELECT_URL, params=params)
 movies_json = json.loads(movies.text)["response"]["docs"]
 
+print()
 print('Top 10 rated movies\'s')
 for i in range(len(movies_json)):
     doc = movies_json[i]
     print("#%d %s - %s - %.02f - %d" % (
         i + 1, doc['imdb_title_id'], doc['original_title'], doc['mean_vote'][0], doc['total_votes'][0]))
+
+# ---
 
 # Use uf to get movies with word Crime in the title ignoring genre
 params = {
@@ -106,12 +92,14 @@ params = {
 movies = get(SELECT_URL, params=params)
 movies_json = json.loads(movies.text)["response"]["docs"]
 
+print()
 print('Movie\'s with the word Crime in title')
 for i in range(len(movies_json)):
     doc = movies_json[i]
     print("#%d %s - %s - %.02f - %d" % (
         i + 1, doc['imdb_title_id'], doc['original_title'], doc['mean_vote'][0], doc['total_votes'][0]))
 
+# ---
 
 # Action movies from the 20\'s 1hour or shorter where at least one actor has New York mentioned on their
 # biography, sorted by weighted average vote descending:
@@ -131,10 +119,35 @@ params = {
 movies = get(SELECT_URL, params=params)
 movies_json = json.loads(movies.text)["response"]["docs"]
 
+print()
 print('Action movies from the 20\'s 1hour or shorter where at least one actor has New York mentioned on their '
       'biography, sorted by weighted average vote descending: ')
 for i in range(len(movies_json)):
     doc = movies_json[i]
-    print("#%d %s - %s - %.02f - %d" % (
-        i + 1, doc['imdb_title_id'], doc['original_title'], doc['mean_vote'][0], doc['total_votes'][0]))
+    print("#%d %s - %s - %.02f" % (
+        i + 1, doc['imdb_title_id'], doc['original_title'], doc['mean_vote'][0]))
 
+# ---
+
+# best movie by genre with at least 10000 votes
+params = {
+    'q': 'mean_vote:* AND total_votes:[10000 TO *]',
+    'sort': 'mean_vote desc',
+    'fl': 'imdb_title_id, original_title, mean_vote, total_votes',
+    'rows': 1000,
+    'group': 'true',
+    'group.field': 'genre'
+}
+
+movies = get(SELECT_URL, params=params)
+groups = json.loads(movies.text)['grouped']['genre']['groups']
+
+print()
+print('Best movie\'s by genre with at least 10000 votes')
+for group in groups:
+    group_values = group['doclist']['docs'][0]
+    print("> %s" % (group['groupValue']))
+    print("\t>ID: %s" % group_values['imdb_title_id'])
+    print("\t>Title: %s" % group_values['original_title'])
+    print("\t>Total votes: %s" % group_values['total_votes'][0])
+    print("\t>Mean vote: %s" % group_values['mean_vote'][0])
