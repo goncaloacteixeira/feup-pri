@@ -27,6 +27,44 @@
             "class": "solr.PorterStemFilterFactory"
           }
         ]
+      },
+      "queryAnalyzer": {
+        "tokenizer": {
+          "class": "solr.StandardTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.SynonymGraphFilterFactory",
+            "expand": true,
+            "ignoreCase": true,
+            "synonyms": "synonyms.txt"
+          },
+          {
+            "class": "solr.StopFilterFactory",
+            "words": "lang/stopwords_en.txt",
+            "ignoreCase": true
+          },
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.EnglishPossessiveFilterFactory"
+          },
+          {
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.BeiderMorseFilterFactory",
+            "nameType": "GENERIC",
+            "ruleType": "APPROX",
+            "concat": true,
+            "languageSet": "auto"
+          }
+        ]
       }
     },
     {
