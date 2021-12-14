@@ -9,15 +9,31 @@ metric = lambda f: metrics.setdefault(f.__name__, f)
 @metric
 def ap(results, relevant):
     """Average Precision"""
+
+    relevant_index = []
+    index = 0
+    for res in results:
+        if (index != 0 and res['imdb_title_id'] in relevant) or (index == 0 and res['imdb_title_id'][0] in relevant):
+            relevant_index.append(index)
+        index = index + 1
+
+    if len(relevant_index) == 0:
+        return 0
+
     precision_values = [
         len([
-            doc 
+            doc
             for doc in results[:idx]
-            if doc['imdb_title_id'] in relevant
-        ]) / idx 
-        for idx in range(1, len(results))
+            if (index != 0 and doc['imdb_title_id'] in relevant) or (index == 0 and doc['imdb_title_id'][0] in relevant)
+        ]) / idx
+        for idx in range(1, len(results) + 1)
     ]
-    return sum(precision_values)/len(precision_values)
+    
+    precision_sum = 0
+    for ind in relevant_index:
+        precision_sum = precision_sum + precision_values[ind]
+
+    return precision_sum/len(relevant_index)
 
 @metric
 def p10(results, relevant, n=10):
