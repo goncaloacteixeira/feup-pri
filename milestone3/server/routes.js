@@ -25,15 +25,18 @@ exports.searchMovie = function (req, res) {
     'wt': 'json',
     'defType': 'edismax',
     'qf': 'original_title^2 title^2',
-    'rows': 10,
+    'rows': 50,
+    'facet': true,
+    'facet.field': 'imdb_title_id',
   };
 
   console.log(params);
 
   instance.get('/select', {params: params})
     .then(function (response) {
-      console.log(response.data)
-      res.json(response.data.response.docs)
+      const data = [...new Map(response.data.response.docs.map((item, key) => [item['imdb_title_id'], item])).values()]
+      console.log(data)
+      res.json(data)
     })
     .catch(function (error) {
       console.log(error)
