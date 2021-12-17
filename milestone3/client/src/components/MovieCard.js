@@ -30,7 +30,7 @@ export default function MovieCard(props) {
   };
 
   return (
-    <Card sx={{maxWidth: 800}}>
+    <Card align="start">
       <CardContent>
         <Grid alignItems="center" container py={1} justifyContent="space-between">
           <Grid item>
@@ -81,7 +81,7 @@ export default function MovieCard(props) {
           {props.movie.description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
+      { !props.movie.plot ? "" : (<CardActions disableSpacing>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -90,14 +90,15 @@ export default function MovieCard(props) {
         >
           <ExpandMoreIcon/>
         </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      </CardActions>)}
+      { !props.movie.plot ? "" : (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>
-            {props.movie.plot}
-          </Typography>
+        <Typography paragraph>
+      {props.movie.plot}
+        </Typography>
         </CardContent>
-      </Collapse>
+        </Collapse>) }
     </Card>
   );
 }
