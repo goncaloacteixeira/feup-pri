@@ -33,7 +33,7 @@ export default function MovieCard(props) {
     <Card align="start">
       <CardContent>
         <Grid alignItems="center" container py={1} justifyContent="space-between">
-          <Grid item>
+          <Grid align="left" item>
             <Grid item>
               <Typography variant="h4">
                 {props.movie.original_title}
@@ -59,7 +59,7 @@ export default function MovieCard(props) {
           <Grid item>
             <Grid item textAlign="end">
               <Grid display="flex" alignItems="center" item>
-                <Grid container direction="row" alignItems="center">
+                <Grid container direction="row" align="center" alignItems="center">
                   <Grid item>
                     <StarIcon/>
                   </Grid>
@@ -77,7 +77,7 @@ export default function MovieCard(props) {
 
           </Grid>
         </Grid>
-        <Typography variant="body1">
+        <Typography align="left" variant="body1">
           {props.movie.description}
         </Typography>
       </CardContent>
@@ -94,8 +94,8 @@ export default function MovieCard(props) {
       { !props.movie.plot ? "" : (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        <Typography paragraph>
-      {props.movie.plot}
+        <Typography align="left" paragraph>
+          {props.movie.plot}
         </Typography>
         </CardContent>
         </Collapse>) }
