@@ -21,6 +21,8 @@ app.get("/api", (req, res) => {
 
 app.get("/api/movies", routes.searchMovie);
 
+app.get("/api/poster/:id", routes.getPoster);
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });

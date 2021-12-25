@@ -10,7 +10,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import {Grid} from "@mui/material";
+import {CircularProgress, Grid} from "@mui/material";
 import SearchForm from "./components/SearchForm";
 
 const drawerWidth = 400;
@@ -24,8 +24,6 @@ function App() {
     event.preventDefault();
 
     setQuery(data);
-
-    console.log(data)
 
     axios.get("/api/movies", {params: data})
       .then(res => setData(res.data))
@@ -81,7 +79,7 @@ function App() {
         >
           <Toolbar />
           <Grid container direction="column" alignItems="center">
-            {!data ? "loading" :
+            {!data ? <CircularProgress color="inherit" /> :
               <ResultsGrid
                 pages={data.pages}
                 movies={data.movies}

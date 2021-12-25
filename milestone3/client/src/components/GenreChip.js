@@ -8,7 +8,6 @@ export default function GenreChip(props) {
       href="#"
       variant="outlined"
       clickable
-      size="small"
     />
   );
 }
