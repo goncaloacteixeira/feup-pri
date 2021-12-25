@@ -10,7 +10,16 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.get("/api/movies/search/:query", routes.searchMovie);
+/**
+ * GET /api/movies
+ *
+ * parameters:
+ *  - query: search on original_title, title, plot and description
+ *  - language: search on language
+ *
+ */
+
+app.get("/api/movies", routes.searchMovie);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
