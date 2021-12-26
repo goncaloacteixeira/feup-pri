@@ -109,7 +109,7 @@ try:
     print("Finished read movies!")
 
     with open('../data/data%d.json' % i, 'w') as fout:
-        json.dump(data, fout, indent=2)
+        json.dump(data, fout)
 
 except sqlite3.Error as error:
     print('Error while connecting to sqlite:', error)

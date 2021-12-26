@@ -15,7 +15,6 @@ datasets_refined
 !data.json
 **/__pycache__
 
-
 # Created by https://www.toptal.com/developers/gitignore/api/react,node,web
 # Edit at https://www.toptal.com/developers/gitignore?templates=react,node,web
 
