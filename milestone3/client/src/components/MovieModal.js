@@ -110,7 +110,7 @@ export default function MovieModal(props) {
                             </Typography>
 
                             <Typography id="modal-modal-description" sx={{mt: 2}}>
-                                {data ? data.movie.overview : props.movie.description}
+                                {data ? (data.movie ? data.movie.overview : props.movie.description) : props.movie.description}
                             </Typography>
 
                             {props.movie.plot ?
