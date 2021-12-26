@@ -20,9 +20,13 @@ app.get("/api", (req, res) => {
  *
  */
 
-app.get("/movies", routes.searchMovie);
+app.get("/api/movies", routes.searchMovie);
 
-app.get("/poster/:id", routes.getPoster);
+app.get("/api/poster/:id", routes.getPoster);
+
+app.get("/api/person/:id", routes.getPerson);
+
+app.get("/api/tmdb/configuration", routes.configuration);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

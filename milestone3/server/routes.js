@@ -70,6 +70,7 @@ exports.searchMovie = function (req, res) {
         'defType': 'edismax',
         'qf': 'original_title^2 title^2',
         'rows': ROWS,
+        'fl': '*,[child]',
         'start': page * ROWS
     };
 
@@ -95,5 +96,42 @@ exports.searchMovie = function (req, res) {
         .catch(function (error) {
             console.log(error)
         })
+}
+
+exports.getPerson = function (req, res) {
+    const id = req.params.id;
+
+    axios.get(TMDB_URL + 'find/' + id, {
+        params: {
+            api_key: TMDB_API_KEY,
+            external_source: 'imdb_id'
+        }
+    }).then(results => {
+        let personResults = results.data.person_results;
+        if (personResults.length === 0) {
+            res.send({message: 'ERR_NO_MOVIES'});
+            return;
+        }
+
+        const personId = results.data.person_results[0].id;
+
+        axios.get(TMDB_URL + 'person/' + personId, {
+            params: {
+                api_key: TMDB_API_KEY
+            }
+        }).then(result => {
+            res.send({
+                message: result.data
+            });
+        })
+    });
+}
+
+exports.configuration = function (req, res) {
+    axios.get(TMDB_URL + '/configuration', {
+        params: {
+            api_key: TMDB_API_KEY
+        }
+    }).then(result => res.send(result.data));
 }
 
