@@ -106,7 +106,7 @@ export default function MovieCard(props) {
           </CardActions>)}
           { !props.movie.plot ? "" : (
               <Collapse in={expanded} timeout="auto" unmountOnExit>
-                  <Typography align="left" paragraph>
+                  <Typography p={2} textAlign="justify" align="left" paragraph>
                     {props.movie.plot}
                   </Typography>
               </Collapse>) }

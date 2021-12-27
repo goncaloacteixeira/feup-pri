@@ -8,7 +8,7 @@ const instance = axios.create({
 const ROWS = 20;
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_URL = 'https://api.themoviedb.org/3/';
-const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w500/'
+const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w500/';
 
 exports.getPoster = function (req, res) {
     const id = req.params.id;
