@@ -127,6 +127,52 @@ exports.getPerson = function (req, res) {
     });
 }
 
+exports.getPeople = function (req, res) {
+    const search = req.query.query;
+    const page = req.query.page ? req.query.page - 1 : 0
+
+    const fields = [
+        'name',
+        'birth_name',
+        'bio'
+    ];
+
+    const query = fields.map(function (value) {
+        return value + ":" + search;
+    });
+
+    let q = '(' + query.join(' ') + ') ';
+
+    let params = {
+        'q': q,
+        'q.op': 'OR',
+        'wt': 'json',
+        'defType': 'edismax',
+        'qf': 'name^2',
+        'rows': ROWS,
+        'start': page * ROWS
+    };
+
+    console.log(params);
+
+    instance.get('/select', {params: params})
+        .then(function (response) {
+            const data = [...new Map(response.data.response.docs.map((item, key) => [item['imdb_name_id'], item])).values()]
+
+            const to_send = {
+                people: data,
+                total: response.data.response.numFound,
+                time: response.data.responseHeader.QTime / 1000.0,
+                pages: Math.ceil(response.data.response.numFound / ROWS),
+            }
+
+            res.json(to_send)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
 exports.configuration = function (req, res) {
     axios.get(TMDB_URL + '/configuration', {
         params: {

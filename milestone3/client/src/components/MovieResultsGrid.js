@@ -2,7 +2,7 @@ import {Grid, Pagination, Typography} from "@mui/material";
 import MovieCard from "./MovieCard";
 import React from "react";
 
-export default function ResultsGrid(props) {
+export default function MovieResultsGrid(props) {
   const [page, setPage] = React.useState(1);
   const handleChange = (event, value) => {
     setPage(value);

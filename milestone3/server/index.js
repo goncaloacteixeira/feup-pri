@@ -26,6 +26,8 @@ app.get("/api/poster/:id", routes.getPoster);
 
 app.get("/api/person/:id", routes.getPerson);
 
+app.get("/api/people", routes.getPeople);
+
 app.get("/api/tmdb/configuration", routes.configuration);
 
 app.listen(PORT, () => {

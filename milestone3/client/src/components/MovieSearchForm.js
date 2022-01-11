@@ -23,7 +23,7 @@ const MenuProps = {
   },
 };
 
-export default function SearchForm(props) {
+export default function MovieSearchForm(props) {
   const [data, setData] = React.useState(
     {
       query: "*",
