@@ -1,4 +1,4 @@
-import {Grid, Pagination, Typography} from "@mui/material";
+import { Grid, Pagination, Typography } from "@mui/material";
 import MovieCard from "./MovieCard";
 import React from "react";
 
@@ -11,7 +11,7 @@ export default function MovieResultsGrid(props) {
 
   return (
     <Grid
-      sx={{maxWidth: 800}}
+      sx={{ maxWidth: 800 }}
       container
       spacing={2}
       direction="column"
@@ -24,17 +24,21 @@ export default function MovieResultsGrid(props) {
         </Typography>
       </Grid>
 
-      {props.movies.map(x => {
-          return (
-            <Grid key={x.imdb_title_id} item align="center" xs={12}>
-              <MovieCard movie={x}/>
-            </Grid>
-          )
-        }
-      )}
+      {props.movies.map((x) => {
+        return (
+          <Grid key={x.imdb_title_id} item align="center" xs={12}>
+            <MovieCard movie={x} />
+          </Grid>
+        );
+      })}
 
       <Grid item align="center">
-        <Pagination count={props.pages} page={page} onChange={handleChange} onClick={ window.scroll({top:0,behavior:'smooth'})} />
+        <Pagination
+          count={props.pages}
+          page={page}
+          onChange={handleChange}
+          onClick={window.scroll({ top: 0, behavior: "smooth" })}
+        />
       </Grid>
     </Grid>
   );

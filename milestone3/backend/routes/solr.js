@@ -1,44 +1,15 @@
+const express = require('express');
+const router = express.Router();
 const axios = require('axios');
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8983/solr/movies',
+    baseURL: 'http://127.0.0.1:8983/solr/movies',
     timeout: 1000
 });
-
 const ROWS = 20;
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
-const TMDB_URL = 'https://api.themoviedb.org/3/';
-const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w500/';
-
-exports.getPoster = function (req, res) {
-    const id = req.params.id;
-
-    axios.get(TMDB_URL + 'find/' + id, {
-        params: {
-            api_key: TMDB_API_KEY,
-            external_source: 'imdb_id'
-        }
-    }).then(results => {
-        let movies = results.data.movie_results;
-        if (movies.length === 0) {
-            res.send({message: 'ERR_NO_MOVIES'});
-            return;
-        }
-
-        const poster = TMDB_IMAGE_URL + results.data.movie_results[0].poster_path;
-
-        res.send({
-            message: {
-                poster: poster,
-                movie: results.data.movie_results[0],
-            }
-        });
-    });
-
-}
 
 
-exports.searchMovie = function (req, res) {
+router.get('/movies', function(req, res) {
     const search = req.query.query;
     const page = req.query.page ? req.query.page - 1 : 0
 
@@ -74,15 +45,15 @@ exports.searchMovie = function (req, res) {
         'start': page * ROWS
     };
 
+    console.log()
+
     if (req.query.sort !== "") {
         params = {...params, sort: req.query.sort + " " + req.query.direction}
     }
 
-    console.log(params);
-
     instance.get('/select', {params: params})
         .then(function (response) {
-            const data = [...new Map(response.data.response.docs.map((item, key) => [item['imdb_title_id'], item])).values()]
+            const data = [...new Map(response.data.response.docs.map((item) => [item['imdb_title_id'], item])).values()]
 
             const to_send = {
                 movies: data,
@@ -96,38 +67,9 @@ exports.searchMovie = function (req, res) {
         .catch(function (error) {
             console.log(error)
         })
-}
+});
 
-exports.getPerson = function (req, res) {
-    const id = req.params.id;
-
-    axios.get(TMDB_URL + 'find/' + id, {
-        params: {
-            api_key: TMDB_API_KEY,
-            external_source: 'imdb_id'
-        }
-    }).then(results => {
-        let personResults = results.data.person_results;
-        if (personResults.length === 0) {
-            res.send({message: 'ERR_NO_MOVIES'});
-            return;
-        }
-
-        const personId = results.data.person_results[0].id;
-
-        axios.get(TMDB_URL + 'person/' + personId, {
-            params: {
-                api_key: TMDB_API_KEY
-            }
-        }).then(result => {
-            res.send({
-                message: result.data
-            });
-        })
-    });
-}
-
-exports.getPeople = function (req, res) {
+router.get('/people', (req, res) => {
     const search = req.query.query;
     const page = req.query.page ? req.query.page - 1 : 0
 
@@ -153,8 +95,6 @@ exports.getPeople = function (req, res) {
         'start': page * ROWS
     };
 
-    console.log(params);
-
     instance.get('/select', {params: params})
         .then(function (response) {
             const data = [...new Map(response.data.response.docs.map((item, key) => [item['imdb_name_id'], item])).values()]
@@ -171,13 +111,7 @@ exports.getPeople = function (req, res) {
         .catch(function (error) {
             console.log(error)
         })
-}
+})
 
-exports.configuration = function (req, res) {
-    axios.get(TMDB_URL + '/configuration', {
-        params: {
-            api_key: TMDB_API_KEY
-        }
-    }).then(result => res.send(result.data));
-}
 
+module.exports = router;

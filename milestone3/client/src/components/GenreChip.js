@@ -1,4 +1,4 @@
-import {Chip} from "@mui/material";
+import { Chip } from "@mui/material";
 
 export default function GenreChip(props) {
   return (
