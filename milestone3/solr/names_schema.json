@@ -8,7 +8,7 @@
     },
     {
       "name": "imdb_name_id",
-      "type": "string",
+      "type": "lowercase",
       "indexed": true,
       "stored": true
     },

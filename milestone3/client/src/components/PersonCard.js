@@ -2,7 +2,7 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { Grid, Link } from "@mui/material";
 import axios from "axios";
 
 export default function PersonCard(props) {
@@ -33,12 +33,25 @@ export default function PersonCard(props) {
           <CardContent>
             <Grid container justifyContent="space-between">
               <Grid item>
-                <Typography variant="h6">
-                  {!data ? "loading..." : data.name}
-                </Typography>
-                <Typography variant="h7" color="text.secondary">
-                  {props.person.birth_name}
-                </Typography>
+                <Grid container align="left" direction="column">
+                  <Grid item>
+                    <Link
+                      href={`/people/${props.person.imdb_name_id}`}
+                      variant="h6"
+                    >
+                      {!data
+                        ? "loading..."
+                        : data.name
+                        ? data.name
+                        : props.person.name}
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Typography variant="h7" color="text.secondary">
+                      {props.person.birth_name}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item align="right">
                 <Typography variant="h6">{props.person.role}</Typography>
