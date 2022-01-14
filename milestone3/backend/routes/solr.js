@@ -11,7 +11,10 @@ const ROWS = 20;
 
 router.get('/movies', function(req, res) {
     const search = req.query.query;
-    const page = req.query.page ? req.query.page - 1 : 0
+    const page = req.query.page ? req.query.page - 1 : 0;
+    const start_year = req.query.start_year ? req.query.start_year : '*';
+    const end_year = req.query.end_year ? req.query.end_year : '*';
+    const sort = req.query.sort ? req.query.sort : '';
 
     const fields = [
         'original_title',
@@ -32,7 +35,7 @@ router.get('/movies', function(req, res) {
         q += "AND (genre:" + req.query.genre.join(" ") + ") "
     }
 
-    q += `AND (year:[${req.query.start_year} TO ${req.query.end_year}]) `
+    q += `AND (year:[${start_year} TO ${end_year}]) `
 
     let params = {
         'q': q,
@@ -47,7 +50,7 @@ router.get('/movies', function(req, res) {
 
     console.log()
 
-    if (req.query.sort !== "") {
+    if (sort !== "") {
         params = {...params, sort: req.query.sort + " " + req.query.direction}
     }
 
