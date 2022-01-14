@@ -12,6 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
+import ValueSlider from "./ValueSlider";
 
 const customData = require("./data.json");
 
@@ -46,16 +47,15 @@ export default function MovieSearchForm(props) {
       ...data,
       query: e.target.value.trim() === "" ? "*" : e.target.value,
     });
-  const onStartYearChange = (e) =>
+
+  const onYearChange = (value1, value2) => {
     setData({
       ...data,
-      start_year: e.target.value === "" ? "*" : e.target.value,
+      start_year: value1,
+      end_year: value2
     });
-  const onEndYearChange = (e) =>
-    setData({
-      ...data,
-      end_year: e.target.value === "" ? "*" : e.target.value,
-    });
+  }
+
   const onSortChange = (e) => setData({ ...data, sort: e.target.value });
   const onDirectionChange = (e) =>
     setData({ ...data, direction: e.target.value });
@@ -162,26 +162,9 @@ export default function MovieSearchForm(props) {
       </Grid>
 
       {/* YEARS */}
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <FormControl fullWidth>
-          <InputLabel htmlFor="search-start-year">Start Year</InputLabel>
-          <OutlinedInput
-            type="number"
-            onChange={onStartYearChange}
-            id="search-start-year"
-            label="Start Year"
-          />
-        </FormControl>
-      </Grid>
-      <Grid item xs={6}>
-        <FormControl fullWidth>
-          <InputLabel htmlFor="search-end-year">End Year</InputLabel>
-          <OutlinedInput
-            type="number"
-            onChange={onEndYearChange}
-            id="search-end-year"
-            label="End Year"
-          />
+          <ValueSlider start={1894} end={2020} onChange={onYearChange} />
         </FormControl>
       </Grid>
 
