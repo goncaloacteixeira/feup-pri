@@ -1,0 +1,179 @@
+{
+  "add-field-type": [
+    {
+      "name": "summaryType",
+      "class": "solr.TextField",
+      "indexAnalyzer": {
+        "tokenizer": {
+          "class": "solr.StandardTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.EnglishPossessiveFilterFactory"
+          },
+          {
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          }
+        ]
+      },
+      "queryAnalyzer": {
+        "tokenizer": {
+          "class": "solr.StandardTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.SynonymGraphFilterFactory",
+            "expand": true,
+            "ignoreCase": true,
+            "synonyms": "synonyms.txt"
+          },
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.EnglishPossessiveFilterFactory"
+          },
+          {
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          }
+        ]
+      }
+    },
+
+    {
+      "name": "summaryTypeImproved",
+      "class": "solr.TextField",
+      "indexAnalyzer": {
+        "tokenizer": {
+          "class": "solr.ClassicTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.ClassicFilterFactory"
+          },
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.EnglishPossessiveFilterFactory"
+          },
+          {
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.HyphenatedWordsFilterFactory"
+          }
+        ]
+      },
+      "queryAnalyzer": {
+        "tokenizer": {
+          "class": "solr.ClassicTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.ClassicFilterFactory"
+          },
+          {
+            "class": "solr.SynonymGraphFilterFactory",
+            "expand": true,
+            "ignoreCase": true,
+            "synonyms": "synonyms.txt"
+          },
+          {
+            "class": "solr.LowerCaseFilterFactory"
+          },
+          {
+            "class": "solr.EnglishPossessiveFilterFactory"
+          },
+          {
+            "class": "solr.KeywordMarkerFilterFactory",
+            "protected": "protwords.txt"
+          },
+          {
+            "class": "solr.PorterStemFilterFactory"
+          },
+          {
+            "class": "solr.HyphenatedWordsFilterFactory"
+          },
+          {
+            "class": "solr.RemoveDuplicatesTokenFilterFactory"
+          }
+        ]
+      }
+    },
+    {
+      "name": "titleType",
+      "class": "solr.TextField",
+      "analyzer": {
+        "tokenizer": {
+          "class": "solr.LowerCaseTokenizerFactory"
+        },
+        "filters": [
+          {
+            "class": "solr.CommonGramsFilterFactory"
+          },
+          {
+            "class": "solr.BeiderMorseFilterFactory",
+            "nameType": "GENERIC",
+            "ruleType": "APPROX",
+            "concat": true,
+            "languageSet": "auto"
+          }
+        ]
+      }
+    }
+  ],
+  "add-field": [
+    {
+      "name": "plot",
+      "type": "summaryTypeImproved",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "title",
+      "type": "titleType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "year",
+      "type": "pint",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "original_title",
+      "type": "titleType",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "description",
+      "type": "summaryTypeImproved",
+      "indexed": true,
+      "stored": true
+    },
+    {
+      "name": "imdb_title_id",
+      "type": "string",
+      "indexed": true,
+      "stored": true
+    }
+  ]
+}
